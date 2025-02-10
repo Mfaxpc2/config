@@ -1,0 +1,30 @@
+debug: false
+uuid: your_wings_uuid
+token: your_wings_token
+api:
+  host: 0.0.0.0
+  port: 8080
+  ssl:
+    enabled: false
+    certificate: /etc/letsencrypt/live/your-domain.com/fullchain.pem
+    key: /etc/letsencrypt/live/your-domain.com/privkey.pem
+  upload_limit: 100
+system:
+  data: /var/lib/pterodactyl
+  log: /var/log/pterodactyl
+  sftp:
+    bind_port: 2022
+docker:
+  network:
+    name: pterodactyl_nw
+    interface: 172.18.0.1
+  containers:
+    image: ghcr.io/pterodactyl/standalone:latest
+    network:
+      mode: bridge
+    binds:
+      - /var/lib/pterodactyl/volumes:/var/lib/pterodactyl/volumes
+    tmpfs:
+      - /tmp:size=100M
+    ulimits:
+      - nofile=1048576:1048576
